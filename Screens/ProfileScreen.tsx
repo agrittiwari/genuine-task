@@ -1,15 +1,17 @@
 import React from "react";
-import { View, Text, Button, Alert } from "react-native";
+import { View, Text, Button } from "react-native";
+import { removeTokenFromStorage } from "../utils/storage";
 
-const ProfileScreen = () => {
+const ProfileScreen = ({ navigation }: { navigation: any }) => {
   const handleLogout = () => {
-    // Implement logout functionality here
-    Alert.alert("Logout", "Logged out successfully");
+    // Remove the token from async storage
+    removeTokenFromStorage();
+    navigation.navigate("Login");
   };
 
   return (
     <View>
-      <Text>Profile Fragment</Text>
+      <Text>Profile Screen</Text>
       <Button title="Logout" onPress={handleLogout} />
     </View>
   );

@@ -1,22 +1,35 @@
 import React, { useState } from "react";
-import { View, TextInput, Button, Alert } from "react-native";
+import { View, Text, TextInput, Button, Alert } from "react-native";
 import { registerUser } from "../utils/apiService";
+import { storeTokenToStorage } from "../utils/storage";
 
-const RegistrationScreen = () => {
+const RegistrationScreen = ({ navigation }: { navigation: any }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleRegister = () => {
-    // Implement registration API call here
-    Alert.alert(
-      "Registration",
-      `Name: ${name}, Email: ${email}, Password: ${password}`
-    );
+  const handleRegistration = async () => {
+    try {
+      const response = await registerUser(name, email, password);
+      if (response.status === "200") {
+        // Save the token to async storage
+        storeTokenToStorage(response.data.token);
+        navigation.navigate("Home");
+      } else {
+        Alert.alert("Registration Failed", response.message);
+      }
+    } catch (error) {
+      console.error("Error registering:", error);
+      Alert.alert(
+        "Registration Failed",
+        "An error occurred while registering."
+      );
+    }
   };
 
   return (
     <View>
+      <Text>Registration Screen</Text>
       <TextInput
         placeholder="Name"
         onChangeText={(text) => setName(text)}
@@ -33,7 +46,7 @@ const RegistrationScreen = () => {
         value={password}
         secureTextEntry
       />
-      <Button title="Register" onPress={handleRegister} />
+      <Button title="Register" onPress={handleRegistration} />
     </View>
   );
 };
