@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, Alert } from "react-native";
-import { loginUser } from "../api/auth";
+import { loginUser } from "../utils/apiService";
 import { storeTokenToStorage } from "../utils/storage";
 
 const LoginScreen = ({ navigation }: { navigation: any }) => {
@@ -12,8 +12,9 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
       const response = await loginUser(email, password);
       if (response.status === "200") {
         // Save the token to async storage
-        storeTokenToStorage(response.data.token);
-        navigation.navigate("Home");
+        console.log(response);
+        storeTokenToStorage(response.data.auth_token);
+        // navigation.navigate("Home");
       } else {
         Alert.alert("Login Failed", response.message);
       }

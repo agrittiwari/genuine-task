@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, Image, Alert } from "react-native";
-import { getPictureList } from "../api/picture";
+import { getPictureList } from "../utils/apiService";
 
 const PictureListScreen = () => {
   const [pictureList, setPictureList] = useState<any[]>([]);

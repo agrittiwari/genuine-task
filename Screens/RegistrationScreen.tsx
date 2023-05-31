@@ -13,8 +13,8 @@ const RegistrationScreen = ({ navigation }: { navigation: any }) => {
       const response = await registerUser(name, email, password);
       if (response.status === "200") {
         // Save the token to async storage
-        storeTokenToStorage(response.data.token);
-        navigation.navigate("Home");
+        // storeTokenToStorage(response.data.token); as this does not send the token
+        navigation.navigate("Login");
       } else {
         Alert.alert("Registration Failed", response.message);
       }
